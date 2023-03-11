@@ -4,7 +4,7 @@ version: '1.0.0-beta.1'
 environment: 
   sdk: ">2.18.999 <4.0.0"
 dependencies:
-  libasserest_interface: '1.0.0-beta.1'
+  libasserest_interface: '>=1.0.0-beta.2'
   http: ^0.13.5
 dev_dependencies: 
   test: ^1.23.1
