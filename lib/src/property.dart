@@ -6,8 +6,16 @@ import 'package:meta/meta.dart';
 
 import 'platform_iden/platform_iden.dart' as platform_iden;
 
+/// Asserest version for User-Agent
 const String _uaVersion = "1.x.x";
 
+/// [TypeError] based [AsserestError] when the given [AsserestHttpProperty.body]
+/// does not stastified these [Type]:
+///
+/// * [Map]
+/// * [List]
+/// * [String]
+/// * [Null]
 @sealed
 class InvalidBodyTypeError extends TypeError implements AsserestError {
   final Type _bodyType;
@@ -29,13 +37,17 @@ class InvalidBodyTypeError extends TypeError implements AsserestError {
       "Body should be uses Map<String, dynamic>, List, String or leave it null.";
 }
 
+/// An [AsserestException] for detect the given [HttpRequestMethod] is required
+/// body content to make request.
 @sealed
 class NonNullBodyRequiredException extends AsserestException {
+  /// An method uses that required[HttpRequestMethod.bodyRequired]
   final HttpRequestMethod method;
   final dynamic _bodyContent;
 
   NonNullBodyRequiredException._(this.method, [this._bodyContent])
-      : super("Body is mandatory for this method of HTTP request.");
+      : assert(method.bodyRequired, "Raise body required if requried actually"),
+        super("Body is mandatory for this method of HTTP request.");
 
   @override
   String toString() {
@@ -58,19 +70,40 @@ class NonNullBodyRequiredException extends AsserestException {
   }
 }
 
+/// Enumerated value for indicating [HttpRequestMethod].
 enum HttpRequestMethod {
+  /// Make `'GET'` request.
+  ///
+  /// It is one of the only two methods that allows to make request
+  /// without apply body content.
   GET(false),
+
+  /// Make `'POST'` request.
   POST(true),
+
+  /// Make `'PUT'` request.
   PUT(true),
+
+  /// Make `'DELETE'` request.
   DELETE(true),
+
+  /// Make `'HEAD'` request.
+  ///
+  /// It is one of the only two methods that allows to make request
+  /// without apply body content.
   HEAD(false),
+
+  /// Make `'PATCH'` request.
   PATCH(true);
 
+  /// Determine the body content is mandatory for given request method.
   final bool bodyRequired;
 
+  /// Initialize method value with [bodyRequired].
   const HttpRequestMethod(this.bodyRequired);
 }
 
+/// An [AsserestProperty] to specify the following test in HTTP.
 class AsserestHttpProperty implements AsserestProperty {
   @override
   final Uri url;
@@ -84,10 +117,22 @@ class AsserestHttpProperty implements AsserestProperty {
   @override
   final int? tryCount;
 
+  /// Method uses for making request and asserting HTTP response.
   final HttpRequestMethod method;
 
+  /// Header of the request.
+  /// 
+  /// By default, it contains default `User-Agent` if no further specified.
   final UnmodifiableMapView<String, String> headers;
 
+  /// Body content of the following request.
+  /// 
+  /// The [body] type can be [Map], [List], [String] and leave it as [Null]
+  /// if the given [method] is allowed.
+  /// 
+  /// It throws [InvalidBodyTypeError] if [body] is not in the mentioned type or
+  /// [NonNullBodyRequiredException] if body content becomes mandatory for
+  /// [method]. 
   final Object? body;
 
   AsserestHttpProperty._(this.url, this.accessible, this.timeout, this.tryCount,
@@ -100,6 +145,7 @@ class AsserestHttpProperty implements AsserestProperty {
   }
 }
 
+/// [PropertyParseProcessor] for handling [AsserestHttpProperty].
 class HttpPropertyParseProcessor
     extends PropertyParseProcessor<AsserestHttpProperty> {
   const HttpPropertyParseProcessor();

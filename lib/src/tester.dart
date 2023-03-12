@@ -7,10 +7,15 @@ import 'package:http/http.dart'
 
 import 'property.dart';
 
+/// An [AsserestTestPlatform] for perform assertion on HTTP.
 class AsserestHttpTestPlatform
     extends AsserestTestPlatform<AsserestHttpProperty> {
+  /// Determine keep request after redirectrd.
+  ///
+  /// This option is enabled by default.
   final bool handleRedirect;
 
+  /// Construct a HTTP test platform for asserting with given [property]
   AsserestHttpTestPlatform(super.property,
       {super.counter, this.handleRedirect = true});
 
@@ -42,7 +47,9 @@ class AsserestHttpTestPlatform
   @override
   Future<AsserestResult> runTestProcess() async {
     try {
-      return (await _makeRespWithStatus() < 400) ? AsserestResult.success : AsserestResult.failure;  
+      return await _makeRespWithStatus() < (handleRedirect ? 300 : 400)
+          ? AsserestResult.success
+          : AsserestResult.failure;
     } on ClientException {
       return AsserestResult.failure;
     } catch (_) {
