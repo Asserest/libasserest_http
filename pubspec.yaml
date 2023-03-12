@@ -8,5 +8,6 @@ dependencies:
   libasserest_interface: '>=1.0.0-beta.2 <2.0.0'
   http: ^0.13.5
   meta: ^1.8.0
+  async_task: ^1.0.20
 dev_dependencies: 
   test: ^1.23.1
