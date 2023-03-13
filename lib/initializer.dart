@@ -33,7 +33,7 @@
 ///   runApp(const App());
 /// }
 /// ```
-library libasserest_http;
+library initializer;
 
 import 'package:libasserest_interface/interface.dart';
 import 'src/property.dart'
