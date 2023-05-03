@@ -47,9 +47,23 @@ class AsserestHttpTestPlatform
   @override
   Future<AsserestResult> runTestProcess() async {
     try {
-      return await _makeRespWithStatus() < (handleRedirect ? 300 : 400)
-          ? AsserestResult.success
-          : AsserestResult.failure;
+      // 300 for enabled handling redirection, 400 for not.
+      final int httpErrCond = handleRedirect ? 300 : 400;
+
+      if (property.accessible) {
+        for (int count = 0; count < property.tryCount!; count++) {
+          int respCode = await _makeRespWithStatus();
+          if (respCode < httpErrCond) {
+            return AsserestResult.success;
+          }
+        }
+
+        return AsserestResult.failure;
+      } else {
+        return await _makeRespWithStatus() >= httpErrCond
+            ? AsserestResult.success
+            : AsserestResult.failure;
+      }
     } on ClientException {
       return AsserestResult.failure;
     } catch (_) {
