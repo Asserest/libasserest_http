@@ -37,7 +37,7 @@ library initializer;
 
 import 'package:libasserest_interface/interface.dart';
 import 'src/property.dart'
-    hide InvalidBodyTypeError, NonNullBodyRequiredException, HttpRequestMethod;
+    show AsserestHttpProperty, HttpPropertyParseProcessor;
 import 'src/tester.dart';
 
 /// Guard check to prevent [asserestHttpSetup] called more than once.
