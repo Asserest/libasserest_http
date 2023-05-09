@@ -51,6 +51,7 @@ class AsserestHttpTestPlatform
       final int httpErrCond = handleRedirect ? 300 : 400;
 
       if (property.accessible) {
+        // Accessible
         for (int count = 0; count < property.tryCount!; count++) {
           int respCode = await _makeRespWithStatus();
           if (respCode < httpErrCond) {
@@ -60,6 +61,7 @@ class AsserestHttpTestPlatform
 
         return AsserestResult.failure;
       } else {
+        // Inaccessible
         return await _makeRespWithStatus() >= httpErrCond
             ? AsserestResult.success
             : AsserestResult.failure;
