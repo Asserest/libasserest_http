@@ -146,7 +146,7 @@ class AsserestHttpProperty implements AsserestProperty {
 }
 
 /// [PropertyParseProcessor] for handling [AsserestHttpProperty].
-class HttpPropertyParseProcessor
+final class HttpPropertyParseProcessor
     extends PropertyParseProcessor<AsserestHttpProperty> {
   const HttpPropertyParseProcessor();
 

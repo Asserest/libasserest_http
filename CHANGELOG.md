@@ -1,3 +1,7 @@
+## 1.0.0-beta.3
+
+* Dart 3 syntax
+
 ## 1.0.0-beta.2
 
 * Fix try count does not applied during test

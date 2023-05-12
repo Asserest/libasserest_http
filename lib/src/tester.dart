@@ -8,7 +8,7 @@ import 'package:http/http.dart'
 import 'property.dart';
 
 /// An [AsserestTestPlatform] for perform assertion on HTTP.
-class AsserestHttpTestPlatform
+final class AsserestHttpTestPlatform
     extends AsserestTestPlatform<AsserestHttpProperty> {
   /// Determine keep request after redirectrd.
   ///
