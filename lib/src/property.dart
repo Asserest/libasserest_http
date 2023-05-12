@@ -121,18 +121,18 @@ class AsserestHttpProperty implements AsserestProperty {
   final HttpRequestMethod method;
 
   /// Header of the request.
-  /// 
+  ///
   /// By default, it contains default `User-Agent` if no further specified.
   final UnmodifiableMapView<String, String> headers;
 
   /// Body content of the following request.
-  /// 
+  ///
   /// The [body] type can be [Map], [List], [String] and leave it as [Null]
   /// if the given [method] is allowed.
-  /// 
+  ///
   /// It throws [InvalidBodyTypeError] if [body] is not in the mentioned type or
   /// [NonNullBodyRequiredException] if body content becomes mandatory for
-  /// [method]. 
+  /// [method].
   final Object? body;
 
   AsserestHttpProperty._(this.url, this.accessible, this.timeout, this.tryCount,
