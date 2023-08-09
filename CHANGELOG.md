@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Add testing
+
 ## 1.0.0-beta.3
 
 * Dart 3 syntax

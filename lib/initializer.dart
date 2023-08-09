@@ -50,7 +50,7 @@ bool _asserestHttpSetup = false;
 /// This method must be callel at **ONCE** only, calling multiple time will
 /// throw [StateError] to prevent duplicated input, even though you have been
 /// removed those [PropertyParseProcessor] and [AsserestTestPlatform] already.
-void asserestHttpSetup({bool counter = false, bool handleRedirecct = true}) {
+void asserestHttpSetup({bool counter = false, bool handleRedirect = true}) {
   if (_asserestHttpSetup) {
     throw StateError(
         "This method should be call once only. If you removed property parse processor or test platform, please add them manually.");
@@ -61,5 +61,5 @@ void asserestHttpSetup({bool counter = false, bool handleRedirecct = true}) {
   AsserestTestAssigner().assign(
       AsserestHttpProperty,
       (property) => AsserestHttpTestPlatform(property as AsserestHttpProperty,
-          counter: counter, handleRedirect: handleRedirecct));
+          counter: counter, handleRedirect: handleRedirect));
 }

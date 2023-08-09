@@ -42,9 +42,6 @@ final class AsserestHttpTestPlatform
       AsserestHttpTestPlatform(property);
 
   @override
-  AsserestHttpProperty parameters() => property;
-
-  @override
   Future<AsserestResult> runTestProcess() async {
     try {
       // 300 for enabled handling redirection, 400 for not.

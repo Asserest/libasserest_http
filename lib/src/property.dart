@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:libasserest_interface/interface.dart';
-import 'package:meta/meta.dart';
 
 import 'platform_iden/platform_iden.dart' as platform_iden;
 
@@ -16,8 +15,7 @@ const String _uaVersion = "1.x.x";
 /// * [List]
 /// * [String]
 /// * [Null]
-@sealed
-class InvalidBodyTypeError extends TypeError implements AsserestError {
+final class InvalidBodyTypeError extends TypeError implements AsserestError {
   final Type _bodyType;
 
   InvalidBodyTypeError._(this._bodyType);
@@ -39,8 +37,7 @@ class InvalidBodyTypeError extends TypeError implements AsserestError {
 
 /// An [AsserestException] for detect the given [HttpRequestMethod] is required
 /// body content to make request.
-@sealed
-class NonNullBodyRequiredException extends AsserestException {
+final class NonNullBodyRequiredException extends AsserestException {
   /// An method uses that required[HttpRequestMethod.bodyRequired]
   final HttpRequestMethod method;
   final dynamic _bodyContent;
@@ -104,7 +101,7 @@ enum HttpRequestMethod {
 }
 
 /// An [AsserestProperty] to specify the following test in HTTP.
-class AsserestHttpProperty implements AsserestProperty {
+final class AsserestHttpProperty implements AsserestProperty {
   @override
   final Uri url;
 
@@ -135,8 +132,10 @@ class AsserestHttpProperty implements AsserestProperty {
   /// [method].
   final Object? body;
 
-  AsserestHttpProperty._(this.url, this.accessible, this.timeout, this.tryCount,
-      this.method, this.headers, this.body) {
+  AsserestHttpProperty(this.url, this.accessible, this.timeout, this.tryCount,
+      this.method, Map<String, String>? headers, this.body)
+      : this.headers =
+            UnmodifiableMapView(headers ?? const <String, String>{}) {
     if (body != null && body is! Map && body is! List && body is! String) {
       throw InvalidBodyTypeError._(body.runtimeType);
     } else if (method.bodyRequired && body == null) {
@@ -162,7 +161,7 @@ final class HttpPropertyParseProcessor
     final Map<String, String>? headers = additionalProperty["header"];
     final Object? body = additionalProperty["body"];
 
-    return AsserestHttpProperty._(
+    return AsserestHttpProperty(
         url,
         accessible,
         timeout,
