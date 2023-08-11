@@ -1,3 +1,7 @@
+## 1.0.0+1
+
+* Complete `README.md`'s context which suppose released in [`1.0.0`](#1.0.0).
+
 ## 1.0.0
 
 * Add testing
